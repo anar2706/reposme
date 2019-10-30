@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: f26b8ab553cfd4767216dbc7be7702fcad1b0115a6347e871faab86174d7ed4e
+      POSTGRES_USER: hllgszowclnrba
+      POSTGRES_DB: ddlgikb5deh120
+      
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  rabbitmq:
+    image: rabbitmq:3.7.18-beta.1-management
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_PASS: "Lappin555"
+      RABBITMQ_DEFAULT_USER: "xilaset_user"
+
+  redis:
+    image: 'redis'
+    environment:
+      REDIS_PASSWORD: "Lappin555"
+    ports:
+      - 6379:6379

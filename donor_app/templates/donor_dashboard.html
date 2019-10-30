@@ -1,0 +1,51 @@
+{% extends "dashboard/base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% block head_title %}{{request.user.donor.first_name}} {{request.user.donor.last_name}} | Dashboard{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'homepage' %}">{% trans "Home"%}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{%trans "Dashboard"%}</li>
+</ol>
+{% endblock %}
+{% block body_title %}{% trans 'Dashboard' %}{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-5 col-sm-5 col-xs-12 gutter">
+
+        <div class="sales">
+            <h2>{% trans 'Total donors' %}: {{total_donors}}</h2>
+
+            <!-- <div class="btn-group">
+                <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Period:</span> Last Year
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#">2012</a>
+                    <a href="#">2014</a>
+                    <a href="#">2015</a>
+                    <a href="#">2016</a>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="col-md-7 col-sm-7 col-xs-12 gutter">
+
+        <div class="sales report">
+            <h2>{% trans "Total donors with blood group" %} {{blood_group}}: {{total_donors_with_blood_group}}</h2>
+            <!-- <div class="btn-group">
+                <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>Period:</span> Last Year
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#">2012</a>
+                    <a href="#">2014</a>
+                    <a href="#">2015</a>
+                    <a href="#">2016</a>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+{% endblock %}

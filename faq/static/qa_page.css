@@ -1,0 +1,57 @@
+.questions h4{
+
+    color:rgb(0, 101, 181);
+    font-size: 18px;
+    
+    
+    }
+    
+    .questions p{
+    
+        color: black;
+        padding: 0px;
+        display: none;
+    }
+   
+    
+    
+    .plus-button {
+        background-color: transparent;
+        height: 2rem;
+        width: 2rem;
+        border-radius: 100%;
+        position: relative;
+        outline: none;
+      }
+      .plus-button::before, .plus-button::after {
+        position: absolute;
+        border-radius: 5px;
+        content: "";
+        width: 50%;
+        height: 10%;
+        top: calc(45%);
+        left: 25%;
+        background-color: rgb(0, 101, 181)  ;
+        transform-origin: 50% 50%;
+        -webkit-transform-origin: 50% 50%;
+        transition: all 0.6s ease-in-out;
+      }
+      .plus-button::after {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+      }
+      .plus-button.animate::before {
+        transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+      }
+      .plus-button.animate::after {
+        opacity: 0.7;
+        transform: rotate(540deg);
+        -webkit-transform: rotate(540deg);
+      }
+      
+      .plus-button:focus{
+          outline: none;
+      }
+
+      

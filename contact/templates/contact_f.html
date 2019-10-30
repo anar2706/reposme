@@ -1,0 +1,34 @@
+{% extends "dashboard/base.html" %}
+
+
+{% load i18n %}
+{% load static %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+{% load recaptcha2 %}
+
+{% block head_title %}{{request.seo.title}} | Xilaset.org{% endblock %}
+{% block head_description %}{{request.seo.description}}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'homepage' %}">{% trans "Home"%}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{%trans "Əlaqə"%}</li>
+    </ol>
+{% endblock%}
+{% block body %}
+<h1 style="padding:0px 0px 20px 0px">{%trans "Bizimlə əlaqə"%}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="form-actions">
+      <button class="btn btn-info" type="submit">{%trans "Göndər"%}</button>
+    </div>
+</form>
+{% recaptcha_init 'az' %}
+
+ 
+
+
+
+{% endblock %}

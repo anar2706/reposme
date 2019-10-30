@@ -1,0 +1,28 @@
+{% load i18n %}
+
+<div class="navi">
+    <ul>
+        {% if not request.user.is_authenticated %}
+            <li {% if request.resolver_match.view_name == 'account_signup'%}class="active"{% endif %}><a class="become-a-donor" href="{% url 'account_signup' %}"><i class="fas fa-heartbeat"></i><strong class="hidden-xs hidden-sm">{% trans "Become a donor"%}</strong></a></li>
+        {% endif %}
+        
+        <li {% if request.resolver_match.view_name == 'donated_already'%}class="active"{% endif %}><a class="i-recently-donated" href="{% url 'donated_already' %}"><i class="fas fa-heartbeat"></i><strong class="hidden-xs hidden-sm">{% trans "Donated already"%}</strong></a></li>
+        
+        <li {% if request.resolver_match.view_name == 'homepage'%}class="active"{% endif %}><a href="{% url 'homepage' %}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{% trans "Home" %}</span></a></li>
+        {% if request.user.is_authenticated %}
+            <li {% if request.resolver_match.view_name == 'donor_dashboard'%}class="active"{% endif %}><a href="{% url 'donor_dashboard' %}"><i class="fas fa-chart-line"></i><span class="hidden-xs hidden-sm">{% trans "Dashboard"%}</span></a></li>
+            <li {% if request.resolver_match.view_name == 'account_change_password'%}class="active"{% endif %}><a href="{% url 'account_change_password' %}"><i class="fas fa-key"></i><span class="hidden-xs hidden-sm">{% trans "Change Password"%}</span></a></li>
+        {% endif %}
+        <li {% if request.resolver_match.view_name == 'contact_f'%}class="active"{% endif %}><a href="{% url 'contact_f' %}"><i class="fas fa-comment-medical" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{% trans "Əlaqə" %}</span></a></li>
+
+        <li {% if request.resolver_match.view_name == 'members'%}class="active"{% endif %}><a href="{% url 'members' %}"><i class="fas fa-users" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{% trans "Members" %}</span></a></li>
+
+
+        <li {% if request.resolver_match.view_name == 'FAQ'%}class="active"{% endif %}><a href="{% url 'FAQ' %}"><i class="fas fa-question-circle" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{% trans "FAQ" %}</span></a></li>
+
+
+        {% if request.user.is_authenticated %}
+            <li {% if request.resolver_match.view_name == 'account_logout'%}class="active"{% endif %}><a href="{% url 'account_logout' %}?next={% url 'account_login' %}"><i class="fas fa-sign-out-alt"></i><span class="hidden-xs hidden-sm">{% trans "Log out"%}</span></a></li>
+        {% endif %}
+    </ul>
+</div>

@@ -1,0 +1,67 @@
+{% extends 'dashboard/base.html' %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+
+{% load static %}
+
+
+
+{% block head_title %}{{request.seo.title}} | Xilaset.org{% endblock %}
+{% block head_description %}{{request.seo.description}}{% endblock %}
+{% block body %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="{% static 'qa_page.css' %}">
+        <link rel="stylesheet" href="{% static 'alfa.css' %}">
+
+        {% block search %}
+
+
+        <form style="margin-bottom:40px" action="{% url 'search_results' %}" method="get">
+            <input name="q" type="text" label='search' class="from-control"  placeholder="Axtar...">
+            <input class="btn btn-primary" type="submit"  value="Axtar" >
+            </form>
+    
+        {% endblock %}
+
+
+        {% for object in object_list %}
+
+        <div class="row">
+            <div class="col-md-1">
+                <button class="plus-button"></button>
+
+            </div>
+
+            <div class="col-md-8">
+
+                <h4> {{object.question}}</h4>
+                  <p style="padding:0px;display: none">{{object.answer}}</p>
+
+
+          </div>
+          
+        </div>
+        <hr>
+
+
+{% empty %}
+
+<h3 class="alert alert-danger" >{% trans 'Content does not exist' %}</h3>
+        
+        {% endfor %}
+
+
+
+        <script src="{% static 'qa_page.js' %}"></script>
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+    {% endblock %}

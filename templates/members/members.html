@@ -1,0 +1,217 @@
+{% extends "dashboard/base.html" %}
+
+
+{% load i18n %}
+{% load static %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+
+
+{% block head_title %}{{request.seo.title}} | Xilaset.org{% endblock %}
+{% block head_description %}{{request.seo.description}}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'homepage' %}">{% trans "Home"%}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{% trans "Members" %}</li>
+    </ol>
+{% endblock%}
+
+{% block body_title %}{% trans "Members" %}{% endblock %}
+
+
+{% block body %}
+<style>
+.card-img-top {
+  height: auto;
+  
+}
+
+@media only screen and (max-width: 1196) {
+  .card-img-top {
+    width: 200px;
+  }
+}
+
+.social{
+   text-decoration: none;
+   color: black;
+   
+  }
+.card-body{
+  text-align: center; 
+}
+
+
+</style>
+
+<div class="row">
+
+
+<div class="col-lg-6 col-md-12">
+    <div class="card"  style="width: 22rem;">
+      <img  class="card-img-top" src="{% static 'members/teacher.jpg' %}" alt="Elşad Ağayev">
+      <div  class="card-body" >
+        <h4>Elşad Ağayev</h4>
+        <p>Layihə Rəhbəri</p>
+        <a  class = 'social'target="blank" href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+        <a  class = 'social' target="blank" href="https://www.facebook.com/elshad.aghazadeh"><i class="fab fa-facebook-square"></i></a>
+        <a  class = 'social' target="blank" href="https://www.linkedin.com/in/elshadaghazadeh/"><i class="fab fa-linkedin"></i></a> 
+        <a  class = 'social' target="blank" href="https://mail.google.com/mail/u/1/#search/elshadaghazade%40gmail.com"><i class="fab fa-google-plus-square"></i></a>
+
+      </div>
+    </div>
+</div>
+
+
+
+
+  <div class="col-lg-6 col-sm-12">
+    <div class="card"  style="width: 22rem;">
+        <img  class="card-img-top" src="{% static 'members/manager.jpg' %}" alt="Pərvin Qasımzadə">
+        <div class="card-body">
+            <h4>Pərvin Qasımzadə</h4>
+            <p>İdeya Müəllifi</p>
+            <a  class = 'social' target="blank" href="https://www.instagram.com/parvin.qasimzade/"><i class="fab fa-instagram"></i></a>
+            <a  class = 'social'target="blank" href="https://www.facebook.com/parvin.gasimzade.1990"><i class="fab fa-facebook-square"></i></a>
+            <a  class = 'social' target="blank" href="https://www.linkedin.com/in/parvin-gasimzade-29434a107//"><i class="fab fa-linkedin"></i></a>
+            <a  class = 'social' target="blank" href="https://mail.google.com/mail/u/1/#search/gasimzadeparvin%40gmail.com"><i class="fab fa-google-plus-square"></i></a>        </div>
+
+          </div>
+</div>
+
+
+
+
+<div class="col-lg-6 col-md-12">
+  <div class="card"  style="width: 22rem;">
+      <img  class="card-img-top" src="{% static 'members/jdev.jpg' %}" alt="Anar Alıyev">
+      <div class="card-body">
+        <h4>Anar Alıyev</h4>
+        <p>Full-Stack Proqramçı</p>
+        <a  class = 'social' target="blank" href="https://www.instagram.com/_anar.alyv_/"><i class="fab fa-instagram"></i></a>         
+        <a  class = 'social' target="blank" href="https://www.facebook.com/Anargrrx"><i class="fab fa-facebook-square"></i></a>
+        <a  class = 'social' target="blank" href="https://linkedin.com/in/anar-aliyev-0b6922188/"><i class="fab fa-linkedin"></i></a> 
+        <a  class = 'social' target="blank" href="https://mail.google.com/mail/u/1/#search/anar.272901%40gmail.com"><i class="fab fa-google-plus-square"></i></a>
+
+      </div>
+    </div>
+</div>
+
+<div class="col-lg-6 col-md-12">
+  <div class="card"  style="width: 22rem;">
+      <img  class="card-img-top" src="{% static 'members/Xanlar.jpg' %}" alt="Xanlar Məmmədov">
+      <div class="card-body">
+        <h4>Xanlar Məmmədov</h4>
+        <p>Front-End Proqramçı</p>
+        {% comment %} <a  class = 'social' target="blank" href="https://www.instagram.com/_anar.alyv_/"><i class="fab fa-instagram"></i></a>         
+        <a  class = 'social' target="blank" href="https://www.facebook.com/Anargrrx"><i class="fab fa-facebook-square"></i></a>
+        <a  class = 'social' target="blank" href="https://linkedin.com/in/anar-aliyev-0b6922188/"><i class="fab fa-linkedin"></i></a> 
+        <a  class = 'social' target="blank" href="https://mail.google.com/mail/u/1/#search/anar.272901%40gmail.com"><i class="fab fa-google-plus-square"></i></a> {% endcomment %}
+
+      </div>
+    </div>
+</div>
+
+
+<div class="col-lg-6 col-md-12">
+  <div class="card"  style="width: 22rem;">
+      <img  class="card-img-top" src="{% static 'members/Anar.jpg' %}" alt="Anar İsmayılov">
+      <div class="card-body">
+        <h4>Anar İsmayılov</h4>
+        <p>Front-End Proqramçı</p>
+        {% comment %} <a  class = 'social' target="blank" href="https://www.instagram.com/_anar.alyv_/"><i class="fab fa-instagram"></i></a>         
+        <a  class = 'social' target="blank" href="https://www.facebook.com/Anargrrx"><i class="fab fa-facebook-square"></i></a>
+        <a  class = 'social' target="blank" href="https://linkedin.com/in/anar-aliyev-0b6922188/"><i class="fab fa-linkedin"></i></a> 
+        <a  class = 'social' target="blank" href="https://mail.google.com/mail/u/1/#search/anar.272901%40gmail.com"><i class="fab fa-google-plus-square"></i></a> {% endcomment %}
+
+      </div>
+    </div>
+</div>
+
+<div class="col-lg-6 col-md-12">
+  <div class="card"  style="width: 22rem;">
+      <img  class="card-img-top" src="{% static 'members/Dayanat.jpg' %}" alt="Dəyanət Məmmədov">
+      <div class="card-body">
+        <h4>Dəyanət Məmmədov</h4>
+        <p>Leykemiya ilə Mübarizə İctimai Birliyinin Fəal Üzvü</p>
+        {% comment %} <a  class = 'social' target="blank" href="https://www.instagram.com/_anar.alyv_/"><i class="fab fa-instagram"></i></a>         
+        <a  class = 'social' target="blank" href="https://www.facebook.com/Anargrrx"><i class="fab fa-facebook-square"></i></a>
+        <a  class = 'social' target="blank" href="https://linkedin.com/in/anar-aliyev-0b6922188/"><i class="fab fa-linkedin"></i></a> 
+        <a  class = 'social' target="blank" href="https://mail.google.com/mail/u/1/#search/anar.272901%40gmail.com"><i class="fab fa-google-plus-square"></i></a> {% endcomment %}
+
+      </div>
+    </div>
+</div>
+
+
+
+{% comment %} <div class="col-sm-12">
+
+
+
+<h3 style="text-align: center;margin:20px 0px">Əlaqə Vasitələri</h3>
+
+<div style="border: 2px solid rgb(20, 20, 128);padding:40px 60px" class="row">
+<div style="text-align: center" class="col-md-2 ">
+
+  <h5>Gmail</h5>
+  <i class="fas fa-envelope-open"></i>
+  <br><a  class = 'social' href="https://mail.google.com/mail/u/0/"> Bloodbank@gmail.com</a>
+  
+
+
+</div>
+
+
+<div style="text-align: center" class="col-md-2 offset-1">
+
+  <h5>Facebook</h5>
+  <i class="fab fa-facebook-square"></i>
+  <br><a  class = 'social' href="https://facebook.com"> Bloodbank</a>
+  
+
+
+</div>
+
+
+<div style="text-align: center" class="col-md-2 offset-1">
+
+  <h5>Əlaqə Nömrələri</h5>
+  <i class="fas fa-phone-square"></i>
+  <br><p style="margin:2px">055-123-45-67</p>
+  <p style = 'margin:2px'>050-123-45-67</p>
+  <p  style = 'margin:2px'>070-123-45-67</p>
+
+
+  
+
+
+</div>
+
+<div style="text-align: center" class="col-md-3  offset-1">
+
+  <h5>Ana Ofis</h5>
+  <i class="fas fa-map-marker-alt"></i>
+  <br><p style="margin:2px">Elektron Hökumətin İnkişafı Mərkəzi - EGOV</p>
+  <p style="margin:2px">89 Atatürk prospekti, Bakı, Azərbaycan </p>
+
+
+  
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+</div> {% endcomment %}
+
+
+{% endblock %}

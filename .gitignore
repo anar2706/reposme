@@ -1,0 +1,9 @@
+.py3
+__pycache__
+*__pycache__*
+*/*__pycache__*
+db.sqlite3
+.vscode
+collectedstatic
+.venv
+venv

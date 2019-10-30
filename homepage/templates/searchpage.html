@@ -1,0 +1,214 @@
+{% extends "dashboard/base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load phone %}
+{% load custom_tags %}
+
+{% block head_title %}{{request.seo.title}} | Xilaset.org{% endblock %}
+{% block head_description %}{{request.seo.description}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'homepage' %}">{% trans "Home"%}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{%trans "Search"%}</li>
+</ol>
+{% endblock %}
+
+
+
+{% block body_title %}{{request.seo.title}}{% endblock %}
+
+{% block body %}
+<div class="modal" tabindex="-1" role="dialog" id="requireContactModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{% trans 'Type your information and reason' %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <input type="text" id="full_name" placeholder="{% trans 'Type your full name...' %}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="tel" id="phone" placeholder="{% trans 'Type your phone number...' %}" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="email" id="email" placeholder="{% trans 'Type your email...' %}" class="form-control">
+        </div>
+        <div class="form-group">
+            <textarea style="height:100px !important" id="reason" placeholder="{% trans 'Reason of your requirement...' %}" class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary require-contact-btn">{% trans 'Require Contact' %}</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close"%}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form method="get" action="{% url 'search' %}">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="keyword">{%trans "Keyword"%}:</label>
+                <input type="search" id="keyword" name="q" value="{{request.GET.q}}" class="form-control" placeholder="{% trans 'Search by key word...'%}">
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="group">{% trans "Filter by group"%}:</label>
+                <select name="g" id="group" class="form-control">
+                    <option value="">-- {% trans "Select Group"%} --</option>
+                    {% for group in blood_group_choices %}
+                        <option value="{{group.0}}" {% if request.GET.g == group.0|to_str %}selected{% endif %}>{{group.1}} / {{group.2}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="gender">{% trans "Filter by gender"%}:</label>
+                <select name="s" id="gender" class="form-control">
+                    <option value="">-- {% trans "Select Gender"%} --</option>
+                    <option value="1" {% if request.GET.s == "1" %}selected{% endif %}>{% trans 'Male'%}</option>
+                    <option value="2" {% if request.GET.s == "2" %}selected{% endif %}>{% trans 'Female'%}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="form-group">
+                <label for="order_by">{% trans "Order by"%}:</label>
+                <select name="o" id="order_by" class="form-control">
+                    <option value="">-- {% trans 'Order by'%} --</option>
+                    <option value="1" {% if request.GET.o == "1" %}selected{% endif %}>{% trans 'Full Name'%} (A-Z)</option>
+                    <option value="2" {% if request.GET.o == "2" %}selected{% endif %}>{% trans 'Full Name'%} (Z-A)</option>
+                    <option value="3" {% if request.GET.o == "3" %}selected{% endif %}>{% trans 'Blood price ascending'%}</option>
+                    <option value="4" {% if request.GET.o == "4" %}selected{% endif %}>{% trans 'Blood price descending'%}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-12 col-sm-12">
+            <div class="form-group">
+                <button class="btn btn-primary form-control align-bottom search-btn">{% trans 'Find' %}</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row">
+    {% if not object_list%}
+        <h5 style="color:#999;text-align:center;margin-top:30px;">{%trans "We couldn't find any donor matching with your search criteria. Change options and search again!" %}</h5>
+    {% endif %}
+    {% for donor in object_list %}
+        {% with donor=donor|donor_filter %}
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="card donor-card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title clearfix">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <i style="font-size: 4em;color:#dc3545;" class="fas fa-tint"><span>{{donor.blood_group|get_blood_group}}</span></i> 
+                                </div>
+                                <div class="col-sm-3" style="font-size:3em;">{% if donor.gender == 1 %}<i class="fas fa-male"></i>{% else %}<i class="fas fa-female"></i>{% endif %}</div>
+                                <div class="col-sm-6">
+                                    <span style="text-align:right;font-size: 1.2em;margin-top:10px;float:right;">{{donor.first_name}} {{donor.last_name}}</span>
+                                </div>
+                            </div>
+                        </h5>
+                        <p class="card-text">
+                            <div class="row">
+                                {% if not donor.donated_recenty %}
+                                    <div class="col-md-4"><strong>{% trans "Phone"%}:</strong></div>
+                                    <div class="col-md-8" style="text-align:left;">
+                                    {% if donor.is_contact_private %}
+                                        <a href="#" data-url="{% url 'give_me_your_contact' donor.pk %}" data-toggle="modal" data-target="#requireContactModal" class="require-contact-number">{% trans "Require contact number"%}</a>
+                                    {% else %}
+                                        <a href="tel:{{donor.phone}}">{{donor.phone|phone}}</a>
+                                    {% endif %}
+                                    </div>
+                                {% else %}
+                                    <div class="col-md-12">
+                                        <div class="alert alert-warning">{{donor.expire_time_left}}</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </p>
+                        <p class="card-text">
+                            <div class="row">
+                                <div class="col-md-4"><strong>{% trans "County"%}:</strong></div>
+                                <div class="col-md-8" style="text-align:left;">{{donor.county}}</div>
+                            </div>
+                        </p>
+                        <p class="card-text">
+                            <div class="row">
+                                <div class="col-md-4"><strong>{% trans "Height"%}:</strong></div>
+                                <div class="col-md-8" style="text-align:left;">{{donor.height}} cm</div>
+                            </div>
+                        </p>
+                    </div>
+                    {% comment %} {% if donor.blood_price_per_100gramm %}
+                        <span title="{% trans 'Price per 100 gramm of blood is' %} {{donor.blood_price_per_100gramm}} AZN" class="badge badge-warning">{{donor.blood_price_per_100gramm}} AZN</span>
+                    {% endif %} {% endcomment %}
+                </div>
+            </div>
+        {% endwith %}
+    {% endfor %}
+    {% if is_paginated %}
+        <div class="container">
+            <div class="row">
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                            <a href="{% url 'search_inner_page' page_obj.previous_page_number %}??{{query_string}}">previous</a>
+                        {% endif %}
+                        <span class="page-current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="{% url 'search_inner_page' page_obj.next_page_number %}?{{query_string}}">next</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script>
+    $(document).ready(function(){
+        let url = ""
+        $('.require-contact-number').on('click', e => {
+            url = $(e.target).data('url')
+        })
+
+        $('.require-contact-btn').on('click', function(){
+            let full_name = $('#full_name').val()
+            let phone = $('#phone').val()
+            let email = $('#email').val()
+            let reason = $('#reason').val()
+
+            $.ajax({
+                url,
+                data: {
+                    full_name,
+                    phone,
+                    email,
+                    reason
+                },
+                method: 'POST'
+            }).then(response => {
+                if (response.sent === 'Fail') {
+                    alert("Something is wrong")
+                } else {
+                    $('#requireContactModal').modal('hide')
+                }
+            })
+        })
+    })
+</script>
+{% endblock %}

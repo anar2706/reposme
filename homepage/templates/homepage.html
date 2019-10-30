@@ -1,0 +1,30 @@
+{% extends "dashboard/base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{{request.seo.title}} | Xilaset.org{% endblock %}
+{% block head_description %}{{request.seo.description}}{% endblock %}
+
+{% block body_title %}{% trans 'I Need' %}{% endblock %}
+{% block body %}
+<div class="row">
+    {% for group in blood_group_choices %}
+        <div class="col-md-3 col-sm-12 col-xs-12 gutter">
+            <a href="{% url 'search'%}?g={{group.0}}">
+                <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-size: 4em;"><i class="fas fa-tint"></i> 
+                            <div style="text-align:center;">{{group.1}}
+                                <div style="font-size:0.3em">
+                                / {{group.2}} {% trans "donors" %}  
+                                </div>
+                            </div>
+                        </h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

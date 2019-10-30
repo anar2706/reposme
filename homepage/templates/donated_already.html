@@ -1,0 +1,96 @@
+{% extends "dashboard/base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load phone %}
+{% load custom_tags %}
+
+{% block head_title %}{{request.seo.title}} | Xilaset.org{% endblock %}
+{% block head_description %}{{request.seo.description}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'homepage' %}">{% trans "Home"%}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{%trans "Search"%}</li>
+</ol>
+{% endblock %}
+
+
+
+{% block body_title %}{% trans 'Have you donated recently and still get calls?' %}{% endblock %}
+
+{% block body %}
+{% if errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for error in errors %}
+                <li>{{error}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+{% if request.seo.description %}
+    <div class="alert alert-info">{{request.seo.description}}</div>
+{% endif %}
+<div style="width:100%; max-width:700px;margin:0 auto;">
+    <form method="post">
+        {% if not request.user.is_authenticated %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="email" placeholder="{% trans 'Type your email...' %}">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="{% trans 'Type your password...' %}">
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info form-control">{% trans 'Hide your contacts for 6 months' %}</button>
+                </div>
+            </div>
+        </div>
+        {% csrf_token %}
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script>
+    $(document).ready(function(){
+        let url = ""
+        $('.require-contact-number').on('click', e => {
+            url = $(e.target).data('url')
+        })
+
+        $('.require-contact-btn').on('click', function(){
+            let full_name = $('#full_name').val()
+            let phone = $('#phone').val()
+            let email = $('#email').val()
+            let reason = $('#reason').val()
+
+            $.ajax({
+                url,
+                data: {
+                    full_name,
+                    phone,
+                    email,
+                    reason
+                },
+                method: 'POST'
+            }).then(response => {
+                if (response.sent === 'Fail') {
+                    alert("Something is wrong")
+                } else {
+                    $('#requireContactModal').modal('hide')
+                }
+            })
+        })
+    })
+    
+</script>
+{% endblock %}

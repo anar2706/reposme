@@ -1,0 +1,26 @@
+{% extends "dashboard/base.html" %}
+
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{{request.user.donor.first_name}} {{request.user.donor.last_name}} | Dashboard{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'homepage' %}">{% trans "Home"%}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'donor_dashboard'%}">{% trans "Dashboard"%}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{%trans "View Profile"%}</li>
+</ol>
+{% endblock %}
+{% block body_title %}{% trans 'View Profile' %}{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-8 col-sm-12 col-xs-12 gutter">
+        <form method="post">
+            {% csrf_token %}
+            {{donor_edit_form | crispy}}
+            <button class="btn btn-primary form-control">{% trans "Change" %}</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

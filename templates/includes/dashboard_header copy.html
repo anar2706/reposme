@@ -1,0 +1,77 @@
+{% load i18n %}
+{% load custom_tags %}
+<header>
+    <div class="row">
+        <div class="col-md-7">
+            {% comment %} <nav class="navbar-default float-left">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </nav> {% endcomment %}
+
+            {% if request.user.is_authenticated and request.resolver_match.view_name != 'search' %}
+                <div class="search hidden-xs hidden-sm">
+                    <form method="get" action="{% url 'search' %}">
+                        <input type="text" name="q" value="{{request.GET.q}}" placeholder="{% trans 'Search' %}" id="search">
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-5">
+            {% if request.user.is_authenticated %}
+                <div class="header-rightside float-right">
+                    <ul class="list-inline header-top pull-right">
+                        {% comment %} <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'messages_list' %}" class="icon-info">
+                                <i class="fa fa-bell" aria-hidden="true"></i>
+                                {% if messages|count_persistent_messages > 0 %}
+                                    <span class="label label-primary">{{messages|count_persistent_messages}}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{request.user.donor.first_name}} {{request.user.donor.last_name}}</span>
+                                <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="navbar-content">
+                                        <span>{{request.user.donor.first_name}} {{request.user.donor.last_name}}</span>
+
+                                        {% if request.user.email %}
+                                            <p class="text-muted small">
+                                                {{request.user.email}}
+                                            </p>
+                                            <div class="divider"></div>
+                                        {% endif %}
+                                        <a href="{% url 'donor_profile_edit' %}" class="view btn-sm active">{% trans "View Profile" %}</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            {% else %}
+                <div class="header-rightside">
+                    <ul class="list-inline header-top float-right">
+                        <!-- <li class="hidden-xs"><a href="#" class="add-project" data-toggle="modal" data-target="#add_project">Add Project</a></li>
+                        <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li> -->
+                        <!-- <li>
+                            <a href="#" class="icon-info">
+                                <i class="fa fa-bell" aria-hidden="true"></i>
+                                <span class="label label-primary">3</span>
+                            </a>
+                        </li> -->
+                        <a href="{% url 'account_signup' %}" class="view btn-sm active">{% trans "Become a Donor" %}</a>
+                        <a href="{% url 'account_login' %}" class="view btn-sm active">{% trans "Sign In" %}</a>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</header>

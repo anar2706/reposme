@@ -1,0 +1,60 @@
+{% extends 'dashboard/base.html'%}
+{% load i18n %}
+{% load custom_tags %}
+
+{% block head_title %}{{request.seo.title}} | Xilaset.org{% endblock %}
+{% block head_description %}{{request.seo.description}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'homepage' %}">{% trans "Home"%}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'donor_dashboard'%}">{% trans "Dashboard"%}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{%trans "My Messages"%}</li>
+</ol>
+{% endblock %}
+
+{% block body_title %}{% trans 'My Messages' %}{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 gutter">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans "Full Name" %}</th>
+                    <th>{% trans "Phone" %}</th>
+                    <th>{% trans "Email" %}</th>
+                    <th>{% trans "Request Reason" %}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if messages|count_persistent_messages > 0 %}
+                    {% for message in messages %}
+                        {% if message.tags|contains:"persistent" %}
+                            <tr>
+                                <td>{{message|json_decode:"full_name"}}</td>
+                                <td>{{message|json_decode:"phone"}}</td>
+                                <td>{{message|json_decode:"email"}}</td>
+                                <td>{{message|json_decode:"reason"}}</td>
+                                <td>
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="mid" value="{{message.id}}" />
+                                        <button href="" class="btn btn-success">Send</button>
+                                    </form>
+                                </td>
+                                <td><a href="{% url 'message_mark_read' message.id %}" class="btn btn-danger">Decline</a></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center"><h3>No message</h3></td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
